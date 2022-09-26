@@ -1,0 +1,85 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  padding: 6px 10px;
+  background: #b7d9cc;
+  margin-bottom: 20px;
+  border: 1px solid #58cba1;
+  outline: none;
+}
+
+button:hover {
+  background: #fff;
+}
+
+button a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.container {
+  width: 500px;
+  background-image: url(../assets/bai1.jpg);
+  background-repeat: repeat-x;
+  background-size: contain;
+  padding: 20px 30px;
+  border: 1px solid #a6d6d6;
+  text-align: center;
+}
+
+.container h1 {
+  color: #01137f;
+  margin-bottom: 10px;
+}
+
+.container hr {
+  margin-bottom: 14px;
+}
+
+.container h1 + hr {
+  width: 80%;
+  margin: 0 auto 14px;
+}
+
+.container .p2 + hr {
+  width: 95%;
+  margin: 0 auto 14px;
+}
+
+.container .p1 {
+  color: #b22c0e;
+  font-size: 16px;
+  font-weight: 550;
+  margin-bottom: 14px;
+}
+
+.container .p2 {
+  color: #ad42aa;
+  font-size: 16px;
+  font-weight: 550;
+  font-style: italic;
+  margin-bottom: 14px;
+}
+
+.container .author {
+  font-weight: bold;
+  color: #0433ff;
+  font-size: 20px;
+}
+
+.container .author span {
+  text-transform: uppercase;
+}

@@ -1,0 +1,88 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+button {
+  padding: 6px 10px;
+  background: #b7d9cc;
+  margin-bottom: 20px;
+  border: 1px solid #58cba1;
+  outline: none;
+}
+
+button:hover {
+  background: #fff;
+}
+
+button a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.container {
+  width: 800px;
+  display: flex;
+  column-gap: 20px;
+}
+
+.container .part {
+  width: 50%;
+}
+
+.container .part img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.container table,
+.container th,
+.container td,
+.container tr {
+  border: 2px solid #00a341;
+}
+
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.container table h2 {
+  text-align: left;
+  padding: 5px 0;
+}
+
+.container th {
+  text-align: left;
+  padding: 5px 0;
+}
+
+.container th {
+  background-color: #fff;
+}
+
+.container tr {
+  background-color: #d1feff;
+}
+
+.container tr td:nth-child(2) {
+  font-weight: bold;
+}
+
+.container tr:nth-child(1),
+.container tr:nth-child(3),
+.container tr:nth-child(5),
+.container tr:nth-child(7),
+.container tr:nth-child(9) {
+  background-color: #ffd5ff;
+}
