@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TH2 - Bài 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      table {
+        background-color: #fecd92;
+        border-collapse: collapse;
+        width: 200px;
+        margin: 50px auto;
+      }
+      table,
+      th,
+      td,
+      tr {
+        border: 1px solid blue;
+      }
+      label {
+        display: inline-block;
+        width: 100px;
+      }
+      tr td:nth-child(2) {
+        display: inline-block;
+        width: 400px;
+      }
+      input {
+        outline: none;
+      }
+      button {
+        float: right;
+        margin-right: 100px;
+        margin-left: auto;
+        cursor: pointer;
+        border-radius: 20px;
+        outline: none;
+      }
+      input#luong {
+        width: 80%;
+      }
+      input#heso {
+        width: 20%;
+      }
+      .luongthang {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <button><a href="../index.html">Trang chủ</a></button>
+    <table>
+      <form action="">
+        <tr>
+          <td>
+            <label for="luong">Lương</label>
+          </td>
+          <td><input type="number" id="luong" name="luong" /></td>
+        </tr>
+        <tr>
+          <td>
+            <label for="heso">Hệ số lương</label>
+          </td>
+          <td>
+            <input type="number" step="0.1" id="heso" name="heso" min="1" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button type="button" id="tinh">Tính lương tháng</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Lương tháng</label>
+          </td>
+          <td><span class="luongthang"></span></td>
+        </tr>
+      </form>
+    </table>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#tinh").click(function () {
+          var luong = $("#luong").val();
+          var heso = $("#heso").val();
+          $(".luongthang").html(luong * heso);
+        });
+      });
+    </script>
+  </body>
+</html>

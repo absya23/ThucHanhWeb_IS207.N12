@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TH2 - Bài 2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      table {
+        background-color: #d1ff00;
+        border-collapse: collapse;
+        width: 200px;
+        margin: 50px auto;
+      }
+      table,
+      th,
+      td,
+      tr {
+        border: 1px solid blue;
+      }
+      th {
+        color: blue;
+        font-weight: bold;
+      }
+      input {
+        outline: none;
+      }
+      h3 {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      button {
+        cursor: pointer;
+      }
+      button#tinh {
+        border-radius: 20px;
+        outline: none;
+        border: 1px solid gray;
+      }
+      .list {
+        width: 100px;
+      }
+      .option-radio {
+        display: flex;
+        width: 200px;
+      }
+      .result {
+        width: 400px;
+        margin-top: 20px;
+        background-color: #a1ffff;
+        border-collapse: collapse;
+      }
+      td[colspan="3"] {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <button><a href="../index.html">Trang chủ</a></button>
+    <div class="container">
+      <table>
+        <form action="">
+          <tr>
+            <td colspan="3"><h3>THỰC ĐƠN</h3></td>
+          </tr>
+          <tr>
+            <th>Thức ăn</th>
+            <th>Nước uống</th>
+            <th>Thời điểm</th>
+          </tr>
+          <tr>
+            <td>
+              <select name="food" class="list" multiple>
+                <option value="20000">Bún bò</option>
+                <option value="18000">Hủ tiếu</option>
+                <option value="17000">Bánh canh</option>
+                <option value="19000">Phở bò</option>
+                <option value="15000">Nuôi</option>
+                <option value="12000">Bánh mì thịt</option>
+                <option value="15000">Bánh cuốn</option>
+              </select>
+            </td>
+            <td>
+              <select name="drink" class="list" multiple>
+                <option value="12000">Cà phê đá</option>
+                <option value="15000">Cà phê sữa</option>
+                <option value="13000">Chanh dây</option>
+                <option value="12000">Chanh muối</option>
+                <option value="14000">Xí muội</option>
+                <option value="13000">Sữa tươi</option>
+                <option value="17000">Cam vắt</option>
+              </select>
+            </td>
+            <td>
+              <div class="option-radio">
+                <input type="radio" name="time" value="1" id="ngay" />ngày
+              </div>
+              <div>
+                <input type="radio" name="time" id="dem" value="1.1" />đêm
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <button type="button" id="tinh">Tính tiền</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+      <table class="result">
+        <tr class="title-result" style="width: 100%">
+          <th style="width: 60%">Các món đã dùng</th>
+          <th style="width: 40%">Tiền</th>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <button type="button" id="thanhtoan">Thanh toán</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- jquery -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var result = $(".result");
+        var sum = 0;
+        var heso = 0;
+        $("#tinh").click(function () {
+          heso = parseFloat($("input[name=time]:checked").val()) || 1;
+          $("select option:selected").each(function () {
+            sum += parseInt(this.value);
+            result.find("tr:last").prev().after(`<tr>
+                      <td>${this.innerHTML}</td>
+                      <td>${this.value}</td>
+            </tr>`);
+          });
+        });
+        // thanh toan
+        $("#thanhtoan").click(function () {
+          result.append(`<tr>
+                  <td>Tổng tiền</td>
+                  <td>${Math.round(sum * heso)} đồng</td>
+                </tr>`);
+        });
+      });
+    </script>
+  </body>
+</html>
