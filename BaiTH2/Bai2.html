@@ -112,8 +112,9 @@
       </table>
       <table class="result">
         <tr class="title-result" style="width: 100%">
-          <th style="width: 60%">Các món đã dùng</th>
-          <th style="width: 40%">Tiền</th>
+          <th style="width: 50%">Các món đã dùng</th>
+          <th style="width: 20%">Số lượng</th>
+          <th style="width: 30%">Thành tiền</th>
         </tr>
         <tr>
           <td colspan="3">
@@ -131,19 +132,52 @@
         $("#tinh").click(function () {
           heso = parseFloat($("input[name=time]:checked").val()) || 1;
           $("select option:selected").each(function () {
+            var item = this;
             sum += parseInt(this.value);
-            result.find("tr:last").prev().after(`<tr>
-                      <td>${this.innerHTML}</td>
-                      <td>${this.value}</td>
+            let flag = false;
+
+            result.find(".sanpham").each(function () {
+              // console.log($(this).find("td").eq(0).html());
+              if ($(this).find("td").eq(0).html() === $(item).html()) {
+                let sl = parseInt($(this).find("td").eq(1).html());
+                let sl_old = sl;
+                sl++;
+                $(this).find("td").eq(1).html(sl);
+                let dongia = parseInt($(item).val());
+                let tien = dongia * sl;
+                $(this).find("td").eq(2).html(tien);
+                flag = true;
+              }
+            });
+
+            if (!flag) {
+              result.find("tr:last").prev().after(`<tr class="sanpham">
+                      <td>${item.innerHTML}</td>
+                      <td>1</td>
+                      <td>${item.value}</td>
             </tr>`);
+            }
           });
         });
         // thanh toan
         $("#thanhtoan").click(function () {
-          result.append(`<tr>
-                  <td>Tổng tiền</td>
-                  <td>${Math.round(sum * heso)} đồng</td>
-                </tr>`);
+          let flag = false;
+          if (result.find("#tongtien").length !== 0) {
+            console.log(result.find("#tongtien").length);
+            result
+              .find("#tongtien")
+              .find("td")
+              .eq(1)
+              .html(Math.round(sum * heso));
+            flag = true;
+            console.log(flag);
+          }
+          if (!flag) {
+            result.append(`<tr id="tongtien">
+                    <td>Tổng tiền</td>
+                    <td colspan="2">${Math.round(sum * heso)} đồng</td>
+                  </tr>`);
+          }
         });
       });
     </script>
