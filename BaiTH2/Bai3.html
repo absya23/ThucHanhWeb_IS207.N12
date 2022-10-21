@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .container {
+        /* width: 500px; */
+        max-width: 1000px;
+        margin: 50px auto;
+        font-size: 14px;
+      }
+      .blue {
+        color: blue;
+      }
+      table {
+        width: 500px;
+        margin: auto;
+        border-collapse: collapse;
+      }
+      table.menu {
+        width: 60%;
+        margin: 10px auto;
+      }
+      .subtable {
+        width: 80%;
+      }
+      .subtable tr td {
+        padding-left: 10px;
+      }
+      tr,
+      th,
+      td {
+        border: 1px solid #333;
+        padding: 10px 0;
+      }
+      .menu th {
+        color: #cccc99;
+        background-color: #0033cc;
+        font-size: 12px;
+      }
+      .menu-row {
+        height: 120px;
+      }
+      h3 {
+        text-align: center;
+      }
+      select {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .results {
+        width: 1000px;
+        margin-top: 20px;
+        display: flex;
+        width: 100%;
+        column-gap: 10px;
+      }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // date
+        function checkTime(i) {
+          if (i < 10) return "0" + i;
+          return i;
+        }
+        function time() {
+          var today = new Date();
+          var d = checkTime(today.getDate());
+          var m = checkTime(today.getMonth());
+          var y = checkTime(today.getFullYear());
+          var h = checkTime(today.getHours());
+          var mi = checkTime(today.getMinutes());
+          var current_day = today.getDay();
+          var thu = "Thứ ";
+          switch (current_day) {
+            case 0:
+              thu = "Chủ nhật";
+              break;
+            default:
+              thu += current_day + 1;
+          }
+          return thu + ", " + d + "/" + m + "/" + y + ", " + h + ":" + mi;
+        }
+        $("#timer").text(time());
+        // ==================
+        // tinh tong tien
+        function totalMoney(currentTable, arr) {
+          var sum = 0;
+          if (arr) {
+            arr.each(function () {
+              sum +=
+                parseInt($(this).find("td").eq(2).find("input").val()) || 0;
+            });
+          }
+          currentTable.find(".tongtien").text(sum);
+        }
+        // chon mon
+        var ban = $("#ban");
+        var monan = $("#monan");
+        monan.change(function () {
+          var flag = false;
+          var soban = ban.find("option:selected").val();
+          var tenmonan = $("#monan").find("option:selected").text();
+          $(".results")
+            .find(".result")
+            .each(function () {
+              if ($(this).find(".soban").text() === soban) {
+                var tables = $(".results").find(".result");
+                var currentTable = {};
+                tables.each(function () {
+                  if ($(this).find(".soban").text() === soban) {
+                    currentTable = $(this);
+                  }
+                });
+                if (currentTable) {
+                  var flagMonAn = false;
+                  currentTable.find("tr.chitietmonan").each(function () {
+                    if ($(this).find("td").eq(0).text() === tenmonan) {
+                      let sl = parseInt(
+                        $(this).find("td").eq(1).find("input").val()
+                      );
+                      sl++;
+                      $(this).find("td").eq(1).find("input").val(sl);
+                      let dongia = parseInt(
+                        $("#monan").find("option:selected").val()
+                      );
+                      $(this)
+                        .find("td")
+                        .eq(2)
+                        .find("input")
+                        .val(dongia * sl);
+                      // không tạo món ăn mới
+                      flagMonAn = true;
+                    }
+                  });
+                  if (!flagMonAn) {
+                    currentTable.find(".dongtongtien")
+                      .before(`<tr class="chitietmonan">
+                            <td>${monan.find("option:selected").text()}</td>
+                            <td>
+                              <input type="number" style="width: 30px" value="1" />
+                            </td>
+                            <td>
+                              <input
+                                type="number"
+                                disabled
+                                style="width: 100px"
+                                value=${monan.find("option:selected").val()}
+                              />
+                            </td>
+                            <td>
+                              <button class="delete">Xóa</button>
+                            </td>
+                          </tr>`);
+                  }
+                  // không tạo bàn mới
+                  totalMoney(
+                    currentTable,
+                    currentTable.find("tr.chitietmonan")
+                  );
+                  flag = true;
+                }
+              }
+            });
+          if (!flag) {
+            $(".results").append(
+              `<table class="result">
+                <thead>
+                  <tr>
+                    <td class="table">
+                      <h3>Bàn <span class="soban">${ban
+                        .find("option:selected")
+                        .val()}</span></h3>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div
+                        style="
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                      >
+                        <table class="subtable">
+                          <tr>
+                            <th width="30%">Món</th>
+                            <th width="20%">SL</th>
+                            <th width="30%">Tiền</th>
+                            <th width="20%"></th>
+                          </tr>
+                          <tr class="chitietmonan">
+                            <td>${monan.find("option:selected").text()}</td>
+                            <td>
+                              <input type="number" style="width: 30px" value="1" />
+                            </td>
+                            <td>
+                              <input
+                                type="number"
+                                disabled
+                                style="width: 100px"
+                                value=${monan.find("option:selected").val()}
+                              />
+                            </td>
+                            <td>
+                              <button class="delete">Xóa</button>
+                            </td>
+                          </tr>
+                          <tr class="dongtongtien">
+                            <td>Tổng tiền</td>
+                            <td colspan="3"><span class="tongtien">${monan
+                              .find("option:selected")
+                              .val()}</span>đ</td>
+                          </tr>
+                        </table>
+                        <button style="margin-top: 10px" class="print">In hoá đơn</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            `
+            );
+          }
+        });
+        // xóa món ăn
+        $(".results").on("click", ".delete", function (e) {
+          let table = $(this).closest("table");
+          e.target.closest("tr").remove();
+          console.log(table);
+          console.log(table.find("tr.chitietmonan"));
+          totalMoney(table, table.find("tr.chitietmonan"));
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <button><a href="../index.html">Trang chủ</a></button>
+    <div class="container">
+      <table>
+        <tr class="blue">
+          <td>
+            <span id="timer"></span>
+          </td>
+          <td><p>Nhân viên: Nguyễn Văn A</p></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <h3>THỰC ĐƠN</h3>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table class="menu">
+              <tr>
+                <th>Bàn</th>
+                <th>Món ăn</th>
+              </tr>
+              <tr class="menu-row">
+                <td>
+                  <select name="ban" id="ban">
+                    <option value="1">Bàn 1</option>
+                    <option value="2">Bàn 2</option>
+                    <option value="3">Bàn 3</option>
+                  </select>
+                </td>
+                <td>
+                  <select name="monan" id="monan">
+                    <option value="20000">Bún bò</option>
+                    <option value="18000">Hủ tiếu</option>
+                    <option value="17000">Bánh canh</option>
+                    <option value="19000">Phở bò</option>
+                    <option value="15000">Nuôi</option>
+                    <option value="12000">Bánh mì thịt</option>
+                    <option value="15000">Bánh cuốn</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <div class="results">
+        <!-- <table class="result">
+          <thead>
+            <tr>
+              <td class="table"><h3>Bàn 1</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div
+                  style="
+                    display: flex;
+                    width: 100%;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <table class="subtable">
+                    <tr>
+                      <th width="30%">Món</th>
+                      <th width="20%">SL</th>
+                      <th width="30%">Tiền</th>
+                      <th width="20%"></th>
+                    </tr>
+                    <tr>
+                      <td>Bún bò</td>
+                      <td><input type="number" style="width: 30px" /></td>
+                      <td>
+                        <input type="number" disabled style="width: 100px" />
+                      </td>
+                      <td><button>Xóa</button></td>
+                    </tr>
+                    <tr>
+                      <td>Tổng tiền</td>
+                      <td colspan="3">đ</td>
+                    </tr>
+                  </table>
+                  <button style="margin-top: 10px">In hoá đơn</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+  </body>
+</html>
