@@ -246,8 +246,6 @@
         $(".results").on("click", ".delete", function (e) {
           let table = $(this).closest("table");
           e.target.closest("tr").remove();
-          console.log(table);
-          console.log(table.find("tr.chitietmonan"));
           totalMoney(table, table.find("tr.chitietmonan"));
         });
       });
