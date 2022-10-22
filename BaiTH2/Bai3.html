@@ -70,9 +70,40 @@
         width: 100%;
         column-gap: 10px;
       }
+      button a {
+        display: inline-block;
+        padding: 6px 10px;
+      }
     </style>
     <script type="text/javascript">
       $(document).ready(function () {
+        // print
+        $(".results").on("click", ".print", function (e) {
+          let nhanvien = $(".nhanvien").text();
+          let time = $("#timer").text();
+          let monans = [];
+          let result = $(this).parents(".result");
+          let soban = result.find(".soban").text();
+          let tongtien = result.find(".tongtien").text();
+          var currentTable = result.find(".subtable");
+          currentTable.find("tr.chitietmonan").each(function () {
+            let monan = {
+              name: $(this).find("td").eq(0).text(),
+              sl: parseInt($(this).find("td").eq(1).find("input").val()),
+              tien: parseInt($(this).find("td").eq(2).find("input").val()),
+            };
+            if (monan) monans.push(monan);
+          });
+          console.log(nhanvien);
+          console.log(time);
+          console.log(soban);
+          console.log(monans);
+          console.log(tongtien);
+          let data = { nhanvien, time, soban, monans, tongtien };
+          localStorage.setItem("CTHD", JSON.stringify(data));
+          // localStorage.getItem("CTHD");
+        });
+
         // date
         function checkTime(i) {
           if (i < 10) return "0" + i;
@@ -232,7 +263,7 @@
                               .val()}</span>đ</td>
                           </tr>
                         </table>
-                        <button style="margin-top: 10px" class="print">In hoá đơn</button>
+                        <button style="margin-top: 10px" class="print"><a href="./Bai3_CT.html"  >In hoá đơn</a></button>
                       </div>
                     </td>
                   </tr>
@@ -259,7 +290,10 @@
           <td>
             <span id="timer"></span>
           </td>
-          <td><p>Nhân viên: Nguyễn Văn A</p></td>
+          <td>
+            Nhân viên:
+            <p class="nhanvien">Nguyễn Văn A</p>
+          </td>
         </tr>
         <tr>
           <td colspan="2">
